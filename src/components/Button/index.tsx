@@ -7,7 +7,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
 }
 
-const StyledButton = styled.button<ButtonProps>`
+const StyledButton = styled.button<{ fullWidth?: boolean; $variant?: 'primary' | 'secondary' | 'outline' }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,7 +20,7 @@ const StyledButton = styled.button<ButtonProps>`
   width: ${props => props.fullWidth ? '100%' : 'auto'};
   
   ${props => {
-    switch (props.variant) {
+    switch (props.$variant) {
       case 'secondary':
         return `
           background: #f1f3f4;

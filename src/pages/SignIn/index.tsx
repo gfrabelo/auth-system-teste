@@ -1,5 +1,8 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Form } from '../../components/Form';
+import { Input } from '../../components/Input';
+import { Button } from '../../components/Button';
 
 const Container = styled.div`
   display: flex;
@@ -10,40 +13,60 @@ const Container = styled.div`
 `;
 
 const Box = styled.div`
-  background: rgba(255, 255, 255, 0.5);
-  width: 50vw;
+  width: auto;
   height: 50vh;
+  
 `;
 
 const Title = styled.h1`
-  font-size: 24px;`;
-
-const TestButton = styled.button`
-  padding: 10px 20px;
-  background-color: #1a73e8;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #1557b0;
-  }
+  font-size: 32px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  text-align: center;
 `;
 
 export function SignIn() {
-  const handleClick = () => {
-    console.log('Button clicked!');
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Form submitted!');
   };
   return (
     <Container>
       <Box>
-        <Title>Página de Login</Title>
-        <TestButton onClick={handleClick}>
-          Teste de Estilo
-        </TestButton>
-        <Link to="/signup">Ir para Cadastro</Link>
-        <Link to="/home">Ir para Home</Link>
+        <Title>Sistema de Login</Title>
+        <Form 
+          title="Login de Teste" 
+          description="Testando nossos componentes"
+          onSubmit={handleSubmit}
+        >
+          <Input 
+            label="Email"
+            type="email"
+            placeholder="Digite seu email"
+            error=""
+          />
+          
+          <Input 
+            label="Senha"
+            type="password"
+            placeholder="Digite sua senha"
+            error="Exemplo de mensagem de erro"
+          />
+
+          <Button type="submit">
+            Entrar
+          </Button>
+
+          <Button 
+            variant="secondary"
+            type="button"
+            onClick={() => navigate('/signup')}
+          >
+            Criar conta
+          </Button>
+        </Form>  
       </Box>
     </Container>
   );

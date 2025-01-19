@@ -2,7 +2,7 @@ import { forwardRef, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 interface InputContainerProps {
-  isErrored: boolean;
+  $isErrored?: boolean;
 }
 
 const InputContainer = styled.div<InputContainerProps>`
@@ -11,17 +11,17 @@ const InputContainer = styled.div<InputContainerProps>`
   gap: 4px;
 `;
 
-const StyledInput = styled.input<InputContainerProps>`
+const StyledInput = styled.input<{ $isErrored?: boolean }>`
   padding: 12px 16px;
-  border: 2px solid ${props => props.isErrored ? '#dc3545' : '#e0e0e0'};
+  border: 2px solid ${props => props.$isErrored ? '#dc3545' : '#e0e0e0'};
   border-radius: 8px;
   font-size: 16px;
   transition: all 0.2s;
   outline: none;
 
   &:focus {
-    border-color: ${props => props.isErrored ? '#dc3545' : '#1a73e8'};
-    box-shadow: 0 0 0 1px ${props => props.isErrored ? '#dc3545' : '#1a73e8'};
+    border-color: ${props => props.$isErrored ? '#dc3545' : '#1a73e8'};
+    box-shadow: 0 0 0 1px ${props => props.$isErrored ? '#dc3545' : '#1a73e8'};
   }
 
   &::placeholder {
@@ -54,9 +54,9 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, ...props }, ref) => {
     return (
-      <InputContainer isErrored={!!error}>
+      <InputContainer $isErrored={!!error}>
         {label && <Label>{label}</Label>}
-        <StyledInput ref={ref} isErrored={!!error} {...props} />
+        <StyledInput ref={ref} $isErrored={!!error} {...props} />
         {error && <ErrorMessage>{error}</ErrorMessage>}
       </InputContainer>
     );
