@@ -9,7 +9,8 @@ export const GlobalStyle = createGlobalStyle`
 
     body {
         font-family: Poppins, sans-serif;
-        background: #f5f5f5;
+        background: #333;
+        color: #f5f5f5;
         min-height: 100vh;
     }
 
