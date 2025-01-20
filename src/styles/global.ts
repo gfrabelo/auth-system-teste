@@ -11,7 +11,6 @@ export const GlobalStyle = createGlobalStyle`
         font-family: Poppins, sans-serif;
         background: #333;
         color: #f5f5f5;
-        min-height: 100vh;
     }
 
     button {

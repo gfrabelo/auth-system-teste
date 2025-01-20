@@ -11,10 +11,17 @@ import { Button } from '../../components/Button';
 const Container = styled.div`
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
-  min-height: 100vh;
-  background-color: #f0f2f5;
-  padding: 20px;
+  height: 100vh;
+  width: 100vw;
+`;
+
+const Title = styled.h1`
+  font-size: 32px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  text-align: center;
 `;
 
 // Schema de validação usando Zod
@@ -81,9 +88,8 @@ export function SignUp() {
 
   return (
     <Container>
+      <Title>Cadastro de Usuário</Title>
       <Form 
-        title="Criar Conta"
-        description="Preencha seus dados para se cadastrar"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Input

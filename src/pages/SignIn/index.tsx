@@ -7,15 +7,10 @@ import { Button } from '../../components/Button';
 const Container = styled.div`
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
-  min-height: 100vh;
-  min-width: 100vw;
-`;
-
-const Box = styled.div`
-  width: auto;
-  height: 50vh;
-  
+  height: 100vh;
+  width: 100vw;
 `;
 
 const Title = styled.h1`
@@ -34,11 +29,8 @@ export function SignIn() {
   };
   return (
     <Container>
-      <Box>
-        <Title>Sistema de Login</Title>
+      <Title>Sistema de Login</Title>
         <Form 
-          title="Login de Teste" 
-          description="Testando nossos componentes"
           onSubmit={handleSubmit}
         >
           <Input 
@@ -66,8 +58,7 @@ export function SignIn() {
           >
             Criar conta
           </Button>
-        </Form>  
-      </Box>
+        </Form>
     </Container>
   );
 }
