@@ -18,14 +18,15 @@ const StyledInput = styled.input<{ $isErrored?: boolean }>`
   font-size: 16px;
   transition: all 0.2s;
   outline: none;
-
+  background: #f5f5f5;
+  color: #333;
   &:focus {
     border-color: ${props => props.$isErrored ? '#dc3545' : '#1a73e8'};
     box-shadow: 0 0 0 1px ${props => props.$isErrored ? '#dc3545' : '#1a73e8'};
   }
 
   &::placeholder {
-    color: #9e9e9e;
+    color: #333;
   }
 
   &:disabled {
