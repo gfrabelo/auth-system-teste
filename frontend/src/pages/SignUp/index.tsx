@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { Form } from '../../components/Form';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
+import { useAuth } from '../../contexts/auth'; 
 
 const Container = styled.div`
   display: flex;
@@ -56,19 +57,19 @@ type SignUpData = z.infer<typeof signUpSchema>;
 
 export function SignUp() {
   const navigate = useNavigate();
+  const { signUp } = useAuth(); // Use o hook useAuth
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<SignUpData>({
     resolver: zodResolver(signUpSchema)
   });
 
   const onSubmit = async (data: SignUpData) => {
     try {
-      console.log('Dados do formulário:', data);
-      // Aqui vamos adicionar a chamada à API depois
-      
-      // Redireciona para login após sucesso
-      navigate('/');
+      await signUp(data); // Chama a função de cadastro
+      navigate('/'); // Redireciona para a página de login após o cadastro
     } catch (error) {
-      console.error('Erro ao cadastrar:', error);
+      console.error('Erro no cadastro:', error);
+      // Exiba uma mensagem de erro para o usuário
+      alert('Erro ao cadastrar. Verifique os dados e tente novamente.');
     }
   };
 
@@ -89,16 +90,13 @@ export function SignUp() {
   return (
     <Container>
       <Title>Cadastro de Usuário</Title>
-      <Form 
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
           label="Nome"
           placeholder="Digite seu nome"
           {...register('name')}
           error={errors.name?.message}
         />
-
         <Input
           label="Email"
           type="email"
@@ -106,7 +104,6 @@ export function SignUp() {
           {...register('email')}
           error={errors.email?.message}
         />
-
         <Input
           label="Data de Nascimento"
           placeholder="dd/mm/yyyy"
@@ -115,7 +112,6 @@ export function SignUp() {
           maxLength={10}
           error={errors.birthDate?.message}
         />
-
         <Input
           label="Senha"
           type="password"
@@ -123,7 +119,6 @@ export function SignUp() {
           {...register('password')}
           error={errors.password?.message}
         />
-
         <Input
           label="Confirmar Senha"
           type="password"
@@ -131,21 +126,21 @@ export function SignUp() {
           {...register('confirmPassword')}
           error={errors.confirmPassword?.message}
         />
-
         <Button 
           type="submit"
-          isLoading={isSubmitting}
-          fullWidth
+          $variant="primary"
+          $fullWidth
+          $isLoading={isSubmitting}
         >
-          Cadastrar
+          {isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
         </Button>
 
         <Button 
           type="button"
-          variant="secondary"
+          $variant="secondary"
+          $fullWidth
           onClick={() => navigate('/')}
-          fullWidth
-        >
+          >
           Já tenho uma conta
         </Button>
       </Form>

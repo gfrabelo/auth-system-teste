@@ -9,6 +9,7 @@ const InputContainer = styled.div<InputContainerProps>`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  width: 100%;
 `;
 
 const StyledInput = styled.input<{ $isErrored?: boolean }>`
@@ -20,13 +21,15 @@ const StyledInput = styled.input<{ $isErrored?: boolean }>`
   outline: none;
   background: #f5f5f5;
   color: #333;
+  width: 100%;
+
   &:focus {
     border-color: ${props => props.$isErrored ? '#dc3545' : '#1a73e8'};
     box-shadow: 0 0 0 1px ${props => props.$isErrored ? '#dc3545' : '#1a73e8'};
   }
 
   &::placeholder {
-    color: #333;
+    color: #666;
   }
 
   &:disabled {
@@ -39,6 +42,7 @@ const ErrorMessage = styled.span`
   color: #dc3545;
   font-size: 14px;
   margin-top: 4px;
+  min-height: 20px;
 `;
 
 const Label = styled.label`
@@ -57,7 +61,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <InputContainer $isErrored={!!error}>
         {label && <Label>{label}</Label>}
-        <StyledInput ref={ref} $isErrored={!!error} {...props} />
+        <StyledInput 
+          ref={ref} 
+          $isErrored={!!error} 
+          {...props} 
+        />
         {error && <ErrorMessage>{error}</ErrorMessage>}
       </InputContainer>
     );

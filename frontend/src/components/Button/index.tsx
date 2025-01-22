@@ -1,13 +1,20 @@
 import { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline';
-  fullWidth?: boolean;
-  isLoading?: boolean;
+// Interface para as props transitórias
+interface StyledButtonProps {
+  $variant?: 'primary' | 'secondary' | 'outline';
+  $fullWidth?: boolean;
+  $isLoading?: boolean;
 }
 
-const StyledButton = styled.button<{ fullWidth?: boolean; $variant?: 'primary' | 'secondary' | 'outline' }>`
+// Estendemos as props do botão HTML com as nossas props transitórias
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, StyledButtonProps {
+  children: React.ReactNode;
+}
+
+// Estilização do botão com props transitórias
+const StyledButton = styled.button<StyledButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,17 +24,18 @@ const StyledButton = styled.button<{ fullWidth?: boolean; $variant?: 'primary' |
   font-weight: 500;
   transition: all 0.2s;
   cursor: pointer;
-  width: ${props => props.fullWidth ? '100%' : 'auto'};
-  
-  ${props => {
-    switch (props.$variant) {
+  width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
+  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
+
+  ${({ $variant }) => {
+    switch ($variant) {
       case 'secondary':
         return `
           background: #f1f3f4;
           color: #1a73e8;
           border: none;
           
-          &:hover {
+          &:hover:not(:disabled) {
             background: #e8eaed;
           }
         `;
@@ -37,7 +45,7 @@ const StyledButton = styled.button<{ fullWidth?: boolean; $variant?: 'primary' |
           color: #1a73e8;
           border: 2px solid #1a73e8;
           
-          &:hover {
+          &:hover:not(:disabled) {
             background: #f1f3f4;
           }
         `;
@@ -47,23 +55,19 @@ const StyledButton = styled.button<{ fullWidth?: boolean; $variant?: 'primary' |
           color: white;
           border: none;
           
-          &:hover {
+          &:hover:not(:disabled) {
             background: #1557b0;
           }
         `;
     }
   }}
-
-  &:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
 `;
 
+// Componente de loading (opcional)
 const LoadingSpinner = styled.div`
   width: 20px;
   height: 20px;
-  border: 2px solid #ffffff;
+  border: 2px solid currentColor;
   border-top: 2px solid transparent;
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -75,10 +79,16 @@ const LoadingSpinner = styled.div`
   }
 `;
 
-export function Button({ children, isLoading, ...props }: ButtonProps) {
+// Componente Button
+export function Button({ children, $isLoading, $variant, $fullWidth, ...props }: ButtonProps) {
   return (
-    <StyledButton disabled={isLoading} {...props}>
-      {isLoading && <LoadingSpinner />}
+    <StyledButton
+      $variant={$variant}
+      $fullWidth={$fullWidth}
+      disabled={$isLoading || props.disabled}
+      {...props}
+    >
+      {$isLoading && <LoadingSpinner />}
       {children}
     </StyledButton>
   );
