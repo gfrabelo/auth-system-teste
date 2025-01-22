@@ -1,14 +1,17 @@
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: './.env' });
 
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const authRoutes = require('./routes/auth');
+
 
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/auth', authRoutes);
 
 // Conectar ao MongoDB
 mongoose.connect(process.env.MONGODB_URI)
