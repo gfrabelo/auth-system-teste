@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export const api = axios.create({
-  baseURL: 'http://localhost:3000', // Ajuste conforme seu backend
+  baseURL: 'http://localhost:5000',
 });
 
 // Interceptor para adicionar token em todas as requisições
