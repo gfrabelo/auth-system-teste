@@ -44,7 +44,7 @@ const StyledButton = styled.button<StyledButtonProps>`
           background: transparent;
           color: #1a73e8;
           border: 2px solid #1a73e8;
-          
+          font-weight: 600;
           &:hover:not(:disabled) {
             background: #f1f3f4;
           }
@@ -63,7 +63,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   }}
 `;
 
-// Componente de loading (opcional)
+// Componente de loading
 const LoadingSpinner = styled.div`
   width: 20px;
   height: 20px;
