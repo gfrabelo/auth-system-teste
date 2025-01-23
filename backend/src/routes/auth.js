@@ -79,4 +79,28 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// Dados do Usuário
+router.get('/me', async (req, res) => {
+    try {
+      // Verifica o token do header
+      const token = req.headers.authorization?.split(' ')[1];
+      if (!token) {
+        return res.status(401).json({ message: 'Token não fornecido' });
+      }
+  
+      // Decodifica o token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      
+      // Busca o usuário no banco de dados
+      const user = await User.findById(decoded.id).select('-password');
+      if (!user) {
+        return res.status(404).json({ message: 'Usuário não encontrado' });
+      }
+  
+      res.json(user);
+    } catch (error) {
+      res.status(401).json({ message: 'Token inválido', error: error.message });
+    }
+  });
+
 module.exports = router;
