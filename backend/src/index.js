@@ -10,10 +10,10 @@ const app = express();
 // Configuração do CORS
 app.use(
   cors({
-    origin: 'http://localhost:5173', // URL do frontend (ajuste conforme necessário)
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
-    allowedHeaders: ['Content-Type', 'Authorization'], // Headers permitidos
-    credentials: true, // Permite cookies e headers de autenticação
+    origin: 'http://localhost:5173', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    allowedHeaders: ['Content-Type', 'Authorization'], 
+    credentials: true,
   })
 );
 

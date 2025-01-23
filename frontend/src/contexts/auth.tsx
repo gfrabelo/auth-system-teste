@@ -79,12 +79,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(null);
     Cookies.remove('auth_token');
     delete api.defaults.headers.Authorization;
-    // Opcional: redirecionar para página de login
     window.location.href = '/signin';
   };
 
   if (loading) {
-    return <div>Carregando...</div>; // Ou seu componente de loading
+    return <div>Carregando...</div>;
   }
 
   return (
