@@ -63,21 +63,26 @@ export function SignUp() {
   });
 
   // Na função onSubmit do SignUp
-const onSubmit = async (data: SignUpData) => {
-  try {
-    const [day, month, year] = data.birthDate.split('/');
-    const formattedData = {
-      ...data,
-      birthDate: `${year}-${month}-${day}` // Formato aceito pelo backend
-    };
-
-    await signUp(formattedData);
-    navigate('/signin');
-  } catch (error) {
-    console.error('Erro no cadastro:', error);
-    alert('Erro ao cadastrar. Verifique os dados.');
-  }
-};
+  const onSubmit = async (data: SignUpData) => {
+    try {
+      // Formate a data para o padrão do backend (se necessário)
+      const [day, month, year] = data.birthDate.split('/');
+      const formattedData = {
+        ...data,
+        birthDate: `${year}-${month}-${day}`
+      };
+  
+      await signUp(formattedData); // Chama a função de cadastro
+      
+      // Redireciona para a página de login após sucesso
+      navigate('/signin');
+      alert('Cadastro realizado! Faça login para continuar.');
+  
+    } catch (error) {
+      console.error('Erro no cadastro:', error);
+      alert('Erro ao cadastrar. Verifique os dados.');
+    }
+  };
 
   // Função para formatar a data enquanto digita
   const handleDateInput = (e: React.ChangeEvent<HTMLInputElement>) => {
