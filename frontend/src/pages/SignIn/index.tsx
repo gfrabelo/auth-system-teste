@@ -10,18 +10,17 @@ import { useAuth } from '../../contexts/auth';
 
 const Container = styled.div`
   display: flex;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 2rem;
-  background: #f5f5f5;
+  height: 100vh;
+  width: 100vw;
 `;
 
 const Title = styled.h1`
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #1a1a1a;
+  font-size: 32px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
   text-align: center;
 `;
 

@@ -45,8 +45,8 @@ const signUpSchema = z.object({
     .string(),
   birthDate: z
     .string()
-    .refine(value => /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(19|20)\d\d$/.test(value), {
-      message: 'Data deve estar no formato dd/mm/yyyy'
+    .regex(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/, {
+      message: 'Formato inválido (dd/mm/aaaa)'
     })
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Senhas não coincidem",
@@ -62,28 +62,35 @@ export function SignUp() {
     resolver: zodResolver(signUpSchema)
   });
 
-  const onSubmit = async (data: SignUpData) => {
-    try {
-      await signUp(data); // Chama a função de cadastro
-      navigate('/'); // Redireciona para a página de login após o cadastro
-    } catch (error) {
-      console.error('Erro no cadastro:', error);
-      // Exiba uma mensagem de erro para o usuário
-      alert('Erro ao cadastrar. Verifique os dados e tente novamente.');
-    }
-  };
+  // Na função onSubmit do SignUp
+const onSubmit = async (data: SignUpData) => {
+  try {
+    const [day, month, year] = data.birthDate.split('/');
+    const formattedData = {
+      ...data,
+      birthDate: `${year}-${month}-${day}` // Formato aceito pelo backend
+    };
+
+    await signUp(formattedData);
+    navigate('/signin');
+  } catch (error) {
+    console.error('Erro no cadastro:', error);
+    alert('Erro ao cadastrar. Verifique os dados.');
+  }
+};
 
   // Função para formatar a data enquanto digita
   const handleDateInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/\D/g, ''); // Remove não-números
-    if (value.length > 8) value = value.slice(0, 8);
-    
-    if (value.length >= 4) {
-      value = `${value.slice(0, 2)}/${value.slice(2, 4)}/${value.slice(4)}`;
-    } else if (value.length >= 2) {
+    if (value.length > 8) value = value.slice(0, 8); // Limita a 8 dígitos
+  
+    // Formatação: dd/mm/yyyy
+    if (value.length > 4) {
+      value = `${value.slice(0, 2)}/${value.slice(2, 4)}/${value.slice(4, 8)}`;
+    } else if (value.length > 2) {
       value = `${value.slice(0, 2)}/${value.slice(2)}`;
     }
-    
+  
     e.target.value = value;
   };
 
@@ -106,7 +113,7 @@ export function SignUp() {
         />
         <Input
           label="Data de Nascimento"
-          placeholder="dd/mm/yyyy"
+          placeholder="dd/mm/aaaa"
           {...register('birthDate')}
           onChange={handleDateInput}
           maxLength={10}
