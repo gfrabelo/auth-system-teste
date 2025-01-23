@@ -3,42 +3,59 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { body, validationResult } = require('express-validator');
 
 // Rota de Registro
-router.post('/register', async (req, res) => {
-    try {
+router.post(
+    '/register',
+    [
+      body('name').isLength({ min: 3 }).withMessage('Nome deve ter no mínimo 3 caracteres'),
+      body('email').isEmail().withMessage('E-mail inválido'),
+      body('password').isLength({ min: 8 }).withMessage('Senha deve ter no mínimo 8 caracteres'),
+      body('birthDate').isDate().withMessage('Data de nascimento inválida'),
+    ],
+    async (req, res) => {
+      // Verifica erros de validação
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+  
+      try {
         const { name, email, password, birthDate } = req.body;
-
-        // Verifica se o usuário já existe
+  
+        // Verifica se o e-mail já está cadastrado
         const userExists = await User.findOne({ email });
         if (userExists) {
-            return res.status(400).json({ message: 'Email já cadastrado' });
+          return res.status(400).json({ message: 'Email já cadastrado' });
         }
-
+  
         // Criptografa a senha
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-
+  
         // Cria o usuário
         const user = await User.create({
-            name,
-            email,
-            password: hashedPassword,
-            birthDate
+          name,
+          email,
+          password: hashedPassword,
+          birthDate,
         });
-
+  
         res.status(201).json({
-            message: 'Usuário criado com sucesso',
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email
-            }
+          message: 'Usuário criado com sucesso',
+          user: {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            birthDate: user.birthDate,
+          },
         });
-    } catch (error) {
+      } catch (error) {
         res.status(500).json({ message: 'Erro ao criar usuário', error: error.message });
+      }
     }
-});
+);
 
 // Rota de Login
 router.post('/login', async (req, res) => {

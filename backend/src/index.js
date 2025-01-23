@@ -7,35 +7,30 @@ const authRoutes = require('./routes/auth');
 
 const app = express();
 
-// Configuração do CORS
-app.use(
-  cors({
-    origin: 'http://localhost:5173', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-    allowedHeaders: ['Content-Type', 'Authorization'], 
-    credentials: true,
-  })
-);
-
-// Middleware para processar JSON
+// Configurações do app
+app.use(cors({ /* ... */ }));
 app.use(express.json());
-
-// Rotas de autenticação
 app.use('/auth', authRoutes);
 
-// Conectar ao MongoDB
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log('Conectado ao MongoDB'))
-  .catch((err) => console.error('Erro ao conectar ao MongoDB:', err));
+// Conectar ao MongoDB e iniciar o servidor
+const startServer = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log('Conectado ao MongoDB');
+    
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`Servidor rodando na porta ${PORT}`);
+    });
+  } catch (error) {
+    console.error('Erro ao iniciar o servidor:', error);
+  }
+};
 
-// Rota básica para teste
-app.get('/', (req, res) => {
-  res.json({ message: 'API funcionando!' });
-});
+// Exporte o app para testes
+module.exports = app;
 
-// Iniciar o servidor
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+// Inicie o servidor apenas se não estiver em modo de teste
+if (process.env.NODE_ENV !== 'test') {
+  startServer();
+}
