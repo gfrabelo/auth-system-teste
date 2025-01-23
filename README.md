@@ -1,4 +1,50 @@
-# **Sistema de Autenticação**
+Vamos atualizar o **README** para incluir informações sobre os testes com Jest. Aqui está a seção que você pode adicionar:
+
+---
+
+### **Seção de Testes no README**
+
+#### **Testes**
+O projeto inclui testes unitários e de integração para garantir a qualidade e o funcionamento correto das funcionalidades. Os testes são escritos com **Jest** e **Supertest**.
+
+##### **Como Executar os Testes**
+1. Instale as dependências de desenvolvimento:
+   ```bash
+   npm install
+   ```
+
+2. Execute todos os testes:
+   ```bash
+   npm test
+   ```
+
+3. Para ver a cobertura de testes, execute:
+   ```bash
+   npm run test:coverage
+   ```
+
+##### **Testes Implementados**
+- **Autenticação**:
+  - Registro de usuário com dados válidos.
+  - Impedir registro com e-mail duplicado.
+  - Login com credenciais válidas.
+  - Impedir login com credenciais inválidas.
+  - Acesso à rota protegida `/auth/me` com token válido.
+  - Impedir acesso à rota protegida sem token.
+  - Validação de dados inválidos no registro.
+
+##### **Cobertura de Testes**
+O projeto possui uma cobertura de testes abrangente, garantindo que as principais funcionalidades sejam testadas. Para ver o relatório de cobertura, execute:
+```bash
+npm run test:coverage
+```
+
+---
+
+### **Exemplo de README Atualizado**
+
+```markdown
+# Sistema de Autenticação
 
 Este projeto é um sistema de autenticação completo, com funcionalidades de **cadastro**, **login** e **proteção de rotas**. Ele foi desenvolvido para demonstrar boas práticas de desenvolvimento fullstack, utilizando tecnologias modernas tanto no frontend quanto no backend.
 
@@ -61,6 +107,43 @@ Este projeto é um sistema de autenticação completo, com funcionalidades de **
 
 ---
 
+## **Testes**
+O projeto inclui testes unitários e de integração para garantir a qualidade e o funcionamento correto das funcionalidades. Os testes são escritos com **Jest** e **Supertest**.
+
+### **Como Executar os Testes**
+1. Instale as dependências de desenvolvimento:
+   ```bash
+   npm install
+   ```
+
+2. Execute todos os testes:
+   ```bash
+   npm test
+   ```
+
+3. Para ver a cobertura de testes, execute:
+   ```bash
+   npm run test:coverage
+   ```
+
+### **Testes Implementados**
+- **Autenticação**:
+  - Registro de usuário com dados válidos.
+  - Impedir registro com e-mail duplicado.
+  - Login com credenciais válidas.
+  - Impedir login com credenciais inválidas.
+  - Acesso à rota protegida `/auth/me` com token válido.
+  - Impedir acesso à rota protegida sem token.
+  - Validação de dados inválidos no registro.
+
+### **Cobertura de Testes**
+O projeto possui uma cobertura de testes abrangente, garantindo que as principais funcionalidades sejam testadas. Para ver o relatório de cobertura, execute:
+```bash
+npm run test:coverage
+```
+
+---
+
 ## **Como Executar o Projeto**
 
 ### **Pré-requisitos**
@@ -110,6 +193,31 @@ Este projeto é um sistema de autenticação completo, com funcionalidades de **
 6. **Acesse o Projeto**:
    - Abra o navegador e acesse `http://localhost:5173`.
 
+---
+
+## **Estrutura do Projeto**
+
+### **Frontend**
+```
+frontend/
+├── src/
+│   ├── components/       # Componentes reutilizáveis
+│   ├── contexts/         # Contextos de autenticação
+│   ├── pages/            # Páginas da aplicação
+│   ├── services/         # Configuração da API
+│   ├── styles/           # Estilos globais
+│   ├── App.tsx           # Componente principal
+│   └── main.tsx          # Ponto de entrada
+```
+
+### **Backend**
+```
+backend/
+├── routes/               # Rotas da API
+├── models/               # Modelos do MongoDB
+├── .env                  # Variáveis de ambiente
+├── index.js              # Ponto de entrada
+```
 
 ---
 
@@ -130,16 +238,4 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 
 ## **Dúvidas?**
 Se você tiver dúvidas sobre o projeto ou encontrar algum problema, sinta-se à vontade para abrir uma [issue](https://github.com/seu-usuario/seu-repositorio/issues).
-
----
-
-### **Dúvidas Comuns**
-1. **Como configurar o MongoDB?**
-   - Use o [MongoDB Atlas](https://www.mongodb.com/atlas) para um banco de dados em nuvem ou instale o MongoDB localmente.
-
-2. **Como testar a API?**
-   - Use ferramentas como [Insomnia](https://insomnia.rest/) ou [Postman](https://www.postman.com/).
-
-3. **Como fazer deploy?**
-   - Para o frontend, você pode usar [Vercel](https://vercel.com/).
-   - Para o backend, use [Render](https://render.com/) ou [Heroku](https://www.heroku.com/).
+```
